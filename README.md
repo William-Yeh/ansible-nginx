@@ -1,17 +1,17 @@
 
-williamyeh.nginx
+williamyeh.nginx for Ansible Galaxy
 ============
 
 
 ## Summary
 
-Role name in Ansible Galaxy: **williamyeh.nginx**
+Role name in Ansible Galaxy: **[williamyeh.nginx](https://galaxy.ansible.com/list#/roles/2245)**
 
 This Ansible role has the following features for Nginx:
 
  - Install specific version.
  - Handlers for restart/reload/stop events;
- - Bare bone configuration (*real* configuration should be left to user's template files).
+ - Bare bone configuration (*real* configuration should be left to user's template files; see **Usage** section below).
 
 
 
