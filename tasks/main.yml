@@ -1,0 +1,29 @@
+---
+# file: tasks/main.yml
+# Top-level installer for Nginx.
+#
+# @see http://wiki.nginx.org/Install
+#
+
+- name: delegate to APT system for installation
+  include: use-apt.yml
+  when: ansible_pkg_mgr == "apt"
+
+
+
+
+
+- name: rename default/example conf files in /etc/nginx/conf.d/, if any
+  sudo: True
+  command: mv -f  "/etc/nginx/conf.d/{{ item }}"  "/etc/nginx/conf.d/{{ item }}.bak"
+  with_items:
+    - default.conf
+    - example_ssl.conf
+  ignore_errors: true
+
+
+- name: copy Nginx main config file
+  sudo: True
+  template: src=../templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  notify:
+    - restart nginx

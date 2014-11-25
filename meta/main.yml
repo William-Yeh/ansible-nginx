@@ -1,0 +1,21 @@
+---
+# nginx/meta/main.yml
+
+galaxy_info:
+    author: williamyeh
+    description: Install and configure Nginx
+    license: Apache
+    platforms:
+        - name: Ubuntu
+          versions:
+              - precise
+              - trusty
+        - name: Debian
+          versions:
+              - wheezy
+    categories:
+        - cloud
+        - system
+        - web
+
+dependencies: []

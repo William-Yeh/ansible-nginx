@@ -1,0 +1,49 @@
+---
+# file: tasks/use-apt.yml
+#
+# Configure nginx from APT repository.  
+#
+# @see http://wiki.nginx.org/Install
+#
+
+- name: install add-apt-repository binary for Ansible to work
+  sudo: True
+  apt: name=python-software-properties state=present update_cache=yes
+
+
+
+
+
+- name: add Nginx stable repository (community src) for Ubuntu
+  # community repo: https://launchpad.net/~nginx
+  sudo: True
+  apt_repository: repo='ppa:nginx/stable' update_cache=yes
+  when: ansible_os_family == "Debian" and ansible_distribution == "Ubuntu"
+
+- name: add official repo for Debian wheezy
+  include: add-wheezy-repo.yml
+  when: ansible_os_family == "Debian" and ansible_distribution_release == "wheezy"
+
+- name: run the equivalent of "apt-get update" as a separate step
+  sudo: True
+  apt: update_cache=yes
+
+
+
+
+
+- name: install Nginx
+  sudo: True
+  shell: apt-get install -y --force-yes "nginx={{ nginx_version }}*"
+  #apt: name={{ item }}  update_cache=yes  state=present force=yes
+  #with_items: [ "nginx={{ nginx_version }}*" ]
+
+
+- name: set INIT status (SysV style)
+  sudo: True
+  shell: update-rc.d nginx defaults
+
+
+- name: start Nginx
+  sudo: True
+  service: name=nginx state=started enabled=yes
