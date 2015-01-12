@@ -5,6 +5,11 @@ galaxy_info:
     author: williamyeh
     description: Install and configure Nginx
     license: Apache
+
+    # for the `playbook_dir` bug:
+    # https://github.com/ansible/ansible/issues/8317
+    min_ansible_version: 1.7.1
+
     platforms:
         - name: Ubuntu
           versions:
