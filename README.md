@@ -36,8 +36,25 @@ nginx_version: 1.6.2
 
 ### Optional variables
 
-User-configurable defaults:
+User-installable configuration files (by Ansible's template system):
 
+```yaml
+# main conf template to be installed to "/etc/nginx/nginx.conf";
+# relative to `playbook_dir`
+nginx_conf_main
+
+
+# other conf templates to be installed to "/etc/nginx/conf.d";
+# dict fields:
+#   - key: memo for this conf
+#   - value:
+#     - src:  template file relative to `playbook_dir`
+#     - dest: target file relative to `/etc/nginx/conf.d/`
+nginx_conf_others
+```
+
+
+User-configurable defaults:
 
 ```yaml
 # which daemon user?
@@ -107,13 +124,15 @@ More practical example:
   vars:
     nginx_version: 1.6.2
 
-  tasks:
-    - name: Copy project-specific config file(s) for Nginx 
-      template: src=templates/nginx.conf.j2  dest=/etc/nginx/nginx.conf
-      template: src=templates/app-1.conf.j2  dest=/etc/nginx/conf.d/app-1.conf
-      template: src=templates/app-2.conf.j2  dest=/etc/nginx/conf.d/app-2.conf
-      notify:
-        - reload nginx
+    nginx_conf_main: "templates/nginx.conf.j2"
+
+    nginx_conf_others:
+      conf_template_for_app_1:
+        src: "templates/app-1.conf.j2"
+        dest: app-1.conf
+      conf_template_for_app_2:
+        src: "templates/app-2.conf.j2"
+        dest: app-2.conf
 ```
 
 
