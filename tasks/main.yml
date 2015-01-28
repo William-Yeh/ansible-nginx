@@ -39,7 +39,6 @@
 - name: copy other Nginx config files from playbook's, if any
   sudo: True
   template: src={{ playbook_dir }}/{{ item.value.src }}  dest=/etc/nginx/conf.d/{{ item.value.dest }}
-  with_dict: nginx_conf_others
-  when: nginx_conf_others is defined
+  with_dict: nginx_conf_others | default({})
   notify:
     - restart nginx
