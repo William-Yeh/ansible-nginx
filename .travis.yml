@@ -6,5 +6,5 @@ script:
   - ./run 'docker build -f test/Dockerfile-ubuntu14.04 -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-ubuntu14.04  http://nginx:80/nginx_status'
 
   - echo "==> Validating the test result..."
-  - grep Active /data/result-ubuntu14.04  ||  exit 1
+  - grep Active result-ubuntu14.04  ||  exit 1
 
