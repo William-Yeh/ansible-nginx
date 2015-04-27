@@ -4,7 +4,10 @@ install:
 script:
   - echo "==> Building the main Docker image..."
   - ./run 'docker build -f test/Dockerfile-ubuntu14.04 -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-ubuntu14.04  http://nginx:80/nginx_status'
+  - ./run 'docker build -f test/Dockerfile-ubuntu12.04 -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-ubuntu12.04  http://nginx:80/nginx_status'
+  - ./run 'docker build -f test/Dockerfile-debian7 -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-debian7  http://nginx:80/nginx_status'
 
-  - echo "==> Validating the test result..."
+  - echo "==> Validating the test results..."
   - grep Active result-ubuntu14.04  ||  exit 1
-
+  - grep Active result-ubuntu12.04  ||  exit 1
+  - grep Active result-debian7      ||  exit 1

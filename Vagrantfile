@@ -23,8 +23,8 @@ Vagrant.configure("2") do |config|
         node.vm.provision "shell", inline: <<-SHELL
             cd /vagrant
             docker build  -f test/Dockerfile-ubuntu14.04  -t nginx_trusty   .
-            #docker build  -f test/Dockerfile-ubuntu12.04  -t nginx_precise  .
-            #docker build  -f test/Dockerfile-debian7      -t nginx_wheezy   .
+            docker build  -f test/Dockerfile-ubuntu12.04  -t nginx_precise  .
+            docker build  -f test/Dockerfile-debian7      -t nginx_wheezy   .
         SHELL
     end
 

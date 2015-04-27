@@ -9,7 +9,7 @@
 
 
 # pull base image
-FROM williamyeh/ansible:ubuntu14.04
+FROM williamyeh/ansible:ubuntu12.04
 
 MAINTAINER William Yeh <william.pjyeh@gmail.com>
 
