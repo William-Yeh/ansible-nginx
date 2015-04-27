@@ -3,8 +3,8 @@ install:
 
 script:
   - echo "==> Building the main Docker image..."
-  - ./run 'docker build -f test/Dockerfile-ubuntu14.04 -t nginx_img .  &&  docker run -d -p 80:80 nginx_img  &&  docker run -v $(pwd):/data nginx_img curl -v http://localhost:80/nginx_status -o /data/result-ubuntu14.04'
+  - ./run 'docker build -f test/Dockerfile-ubuntu14.04 -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-ubuntu14.04  http://nginx:80/nginx_status'
 
   - echo "==> Validating the test result..."
-  - grep Active result-ubuntu14.04  ||  exit 1
+  - grep Active /data/result-ubuntu14.04  ||  exit 1
 
