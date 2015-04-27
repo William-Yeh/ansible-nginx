@@ -4,6 +4,8 @@
 # Configure nginx from APT repository.  
 #
 # @see http://wiki.nginx.org/Install
+# @see # @see http://nginx.org/packages/ubuntu/dists/
+# @see # @see http://nginx.org/packages/debian/dists/
 #
 
 - name: install add-apt-repository binary for Ansible to work
@@ -12,17 +14,19 @@
 
 
 
-
-
-- name: add Nginx stable repository (community src) for Ubuntu
-  # community repo: https://launchpad.net/~nginx
+- name: add Nginx stable repository (deb)
   sudo: True
-  apt_repository: repo='ppa:nginx/stable' update_cache=yes
-  when: ansible_os_family == "Debian" and ansible_distribution == "Ubuntu"
+  apt_repository: repo='deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx' state=present
 
-- name: add official repo for Debian wheezy
-  include: add-wheezy-repo.yml
-  when: ansible_os_family == "Debian" and ansible_distribution_release == "wheezy"
+- name: add Nginx stable repository (deb-src)
+  sudo: True
+  apt_repository: repo='deb-src http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx' state=present
+
+- name: add Nginx.org key
+  sudo: True
+  apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+
+
 
 - name: run the equivalent of "apt-get update" as a separate step
   sudo: True
@@ -30,13 +34,11 @@
 
 
 
-
-
 - name: install Nginx
   sudo: True
-  shell: apt-get install -y --force-yes "nginx={{ nginx_version }}*"
-  #apt: name={{ item }}  update_cache=yes  state=present force=yes
-  #with_items: [ "nginx={{ nginx_version }}*" ]
+  apt: name={{ item }}  update_cache=yes  state=present force=yes
+  with_items: [ "nginx={{ nginx_version }}*" ]
+  #when: ansible_distribution == "Debian"
 
 
 - name: set INIT status (SysV style)

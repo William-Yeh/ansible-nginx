@@ -2,6 +2,8 @@
 williamyeh.nginx for Ansible Galaxy
 ============
 
+[![Build Status](https://travis-ci.org/William-Yeh/ansible-nginx.svg?branch=master)](https://travis-ci.org/William-Yeh/ansible-nginx)
+
 
 ## Summary
 
@@ -29,7 +31,7 @@ nginx_version
 For example:
 
 ```yaml
-nginx_version: 1.6.2
+nginx_version: 1.8.0
 ```
 
 
@@ -58,7 +60,7 @@ User-configurable defaults:
 
 ```yaml
 # which daemon user?
-nginx_user:  nginx
+nginx_user:  www-data
 
 # for worker_rlimit_nofile in nginx.conf
 nginx_ulimit:  51200
@@ -103,7 +105,7 @@ Simple example:
     - williamyeh.nginx
 
   vars:
-    nginx_version: 1.6.2
+    nginx_version: 1.8.0
 ```
 
 
@@ -122,7 +124,7 @@ More practical example:
     - williamyeh.nginx
 
   vars:
-    nginx_version: 1.6.2
+    nginx_version: 1.8.0
 
     nginx_conf_main: "templates/nginx.conf.j2"
 
@@ -143,7 +145,7 @@ None.
 
 ## License
 
-Licensed under the Apache License V2.0. See the [LICENSE file](LICENSE) for details.
+Apache License V2.0. See the [LICENSE file](LICENSE) for details.
 
 
 ## History
@@ -154,4 +156,3 @@ During refactoring, some roles on Ansible Galaxy also inspired me:
 
   - [Stouts.nginx](https://github.com/Stouts/Stouts.nginx)
   - [MatthewMi11er.nginx](https://github.com/MatthewMi11er/ansible-role-nginx)
-

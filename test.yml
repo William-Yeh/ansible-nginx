@@ -7,4 +7,4 @@
     - 'defaults/main.yml'
 
   vars:
-    nginx_version: 1.6.2
+    nginx_version: 1.8.0

@@ -4,14 +4,14 @@
 # variables needed to be defined in user's playbook
 #
 
-#nginx_version:           1.6.2
+#nginx_version:           1.8.0
 
 
 #
 # user-configurable defaults
 #
 
-nginx_user:               nginx
+nginx_user:               www-data
 
 nginx_ulimit:             51200    # worker_rlimit_nofile in nginx.conf
 nginx_worker_connections: 1024     # worker_connections in nginx.conf
