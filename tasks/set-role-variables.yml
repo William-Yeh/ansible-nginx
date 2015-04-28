@@ -5,7 +5,7 @@
 
 - name: set nginx_user for Debian/Ubuntu system
   set_fact:
-    nginx_user: "www-user"
+    nginx_user: "www-data"
   when: ansible_pkg_mgr == "apt"
 
 - name: set nginx_user for RHEL/CentOS system
