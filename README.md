@@ -62,7 +62,7 @@ User-configurable defaults:
 ```yaml
 # uid of worker process;
 # default: "www-data" in Debian series; "nginx" in RedHat series.
-nginx_user               
+nginx_user
 
 # for worker_rlimit_nofile in nginx.conf
 nginx_ulimit:  51200
@@ -71,8 +71,10 @@ nginx_ulimit:  51200
 nginx_worker_connections:  1024
 
 # install http://HOST:PORT/nginx_status endpoint
-nginx_status:  false     
+nginx_status:  False
 
+# use service to start/restart nginx daemon
+nginx_use_service:  True
 ```
 
 

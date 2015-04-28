@@ -3,10 +3,35 @@
 #
 
 - name: restart nginx
+  sudo: True
   service: name=nginx state=restarted
+  when: nginx_use_service|bool
+
+- name: restart nginx
+  sudo: True
+  command: /usr/bin/env nginx -s reload
+  when: not nginx_use_service|bool
+
+
 
 - name: reload nginx
+  sudo: True
   service: name=nginx state=reloaded
+  when: nginx_use_service|bool
+
+- name: reload nginx
+  sudo: True
+  command: /usr/bin/env nginx -s reload
+  when: not nginx_use_service|bool
+
+
 
 - name: stop nginx
+  sudo: True
   service: name=nginx state=stopped
+  when: nginx_use_service|bool
+
+- name: stop nginx
+  sudo: True
+  command: /usr/bin/env nginx -s stop
+  when: not nginx_use_service|bool

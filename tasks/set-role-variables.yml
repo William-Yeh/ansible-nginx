@@ -12,3 +12,9 @@
   set_fact:
     nginx_user: "nginx"
   when: ansible_pkg_mgr == "yum"
+
+
+- name: set nginx_use_service = True, if not defined
+  set_fact:
+    nginx_use_service: True
+  when: nginx_use_service is not defined
