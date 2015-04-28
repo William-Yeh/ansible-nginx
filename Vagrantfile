@@ -25,6 +25,8 @@ Vagrant.configure("2") do |config|
             docker build  -f test/Dockerfile-ubuntu14.04  -t nginx_trusty   .
             docker build  -f test/Dockerfile-ubuntu12.04  -t nginx_precise  .
             docker build  -f test/Dockerfile-debian7      -t nginx_wheezy   .
+            docker build  -f test/Dockerfile-centos7      -t nginx_centos7  .
+            docker build  -f test/Dockerfile-centos6      -t nginx_centos6  .
         SHELL
     end
 
