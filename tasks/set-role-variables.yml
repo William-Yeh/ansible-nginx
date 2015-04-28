@@ -6,12 +6,12 @@
 - name: set nginx_user for Debian/Ubuntu system
   set_fact:
     nginx_user: "www-data"
-  when: ansible_pkg_mgr == "apt"
+  when: nginx_user is not defined  and  ansible_pkg_mgr == "apt"
 
 - name: set nginx_user for RHEL/CentOS system
   set_fact:
     nginx_user: "nginx"
-  when: ansible_pkg_mgr == "yum"
+  when: nginx_user is not defined  and  ansible_pkg_mgr == "yum"
 
 
 - name: set nginx_use_service = True, if not defined

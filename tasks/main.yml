@@ -7,7 +7,6 @@
 
 - name: set role variables, if necessary
   include: set-role-variables.yml
-  when: nginx_user is not defined
 
 
 - name: delegate to APT system for installation
