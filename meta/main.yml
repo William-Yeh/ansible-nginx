@@ -18,6 +18,10 @@ galaxy_info:
         - name: Debian
           versions:
               - wheezy
+        - name: EL
+          versions:
+              - 6
+              - 7
     categories:
         - cloud
         - system
