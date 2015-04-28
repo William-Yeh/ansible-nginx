@@ -4,46 +4,33 @@
 #   $ docker build -t nginx .
 #   $ docker run -p 80:80 nginx
 #
-# Version  1.0
+# Version  1.1
 #
 
 
 # pull base image
-FROM williamyeh/ansible:debian7
+FROM williamyeh/ansible:debian7-onbuild
 
 MAINTAINER William Yeh <william.pjyeh@gmail.com>
 
 
-RUN echo "===> Installing curl for testing purpose..."  && \
-    DEBIAN_FRONTEND=noninteractive  \
-    apt-get update               && \
-    apt-get install -y -f curl
+#
+# build phase
+#
 
-
-RUN echo "===> Ansible version"  && \
-    ansible-playbook --version
-
-
-RUN echo "===> Copying Ansible roles..."
-WORKDIR /tmp
-COPY    .  /tmp
-
-
-RUN echo "===> Creating inventory file..."      && \
-    echo localhost > inventory                  && \
-    \
-    \
-    echo "===> Checking role file's syntax..."  && \
-    ansible-playbook --syntax-check -i inventory test.yml   && \
-    \
-    \
-    echo "===> First deployment..."    && \
-    ansible-playbook -vvv -i inventory test.yml --connection=local --sudo
-
-
+ENV PLAYBOOK test.yml
+RUN ansible-playbook-wrapper
 
 EXPOSE 80
 
+
+#
+# test phase
+#
+
+RUN echo "===> Installing curl for testing purpose..."  && \
+    DEBIAN_FRONTEND=noninteractive  \
+    apt-get install -y -f curl
 
 RUN echo "===> Deploying nginx_status.conf to server for testing..."   && \
     echo "server {\n    listen 80;\n    listen [::]:80;\n\n    server_name _;\n\n    location /nginx_status {\n        # Turn on nginx stats\n        stub_status on;\n    }\n}"   \
