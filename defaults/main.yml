@@ -11,7 +11,13 @@
 # user-configurable defaults
 #
 
-nginx_user:               www-data
 
-nginx_ulimit:             51200    # worker_rlimit_nofile in nginx.conf
-nginx_worker_connections: 1024     # worker_connections in nginx.conf
+#---------- "nginx_user" is defind in tasks/set-role-variables.yml ------
+#nginx_user:              www-data  # debian series
+#nginx_user:              nginx     # redhat series
+
+
+nginx_status:             False     # install http://HOST:PORT/nginx_status endpoint
+
+nginx_ulimit:             51200     # worker_rlimit_nofile in nginx.conf
+nginx_worker_connections: 1024      # worker_connections in nginx.conf

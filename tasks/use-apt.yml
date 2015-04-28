@@ -4,8 +4,8 @@
 # Configure nginx from APT repository.  
 #
 # @see http://wiki.nginx.org/Install
-# @see # @see http://nginx.org/packages/ubuntu/dists/
-# @see # @see http://nginx.org/packages/debian/dists/
+# @see http://nginx.org/packages/ubuntu/dists/
+# @see http://nginx.org/packages/debian/dists/
 #
 
 - name: install add-apt-repository binary for Ansible to work

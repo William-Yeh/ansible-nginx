@@ -40,6 +40,7 @@ nginx_version: 1.8.0
 
 User-installable configuration files (by Ansible's template system):
 
+
 ```yaml
 # main conf template to be installed to "/etc/nginx/nginx.conf";
 # relative to `playbook_dir`
@@ -59,14 +60,18 @@ nginx_conf_others
 User-configurable defaults:
 
 ```yaml
-# which daemon user?
-nginx_user:  www-data
+# uid of worker process;
+# default: "www-data" in Debian series; "nginx" in RedHat series.
+nginx_user               
 
 # for worker_rlimit_nofile in nginx.conf
 nginx_ulimit:  51200
 
 # for worker_connections in nginx.conf
 nginx_worker_connections:  1024
+
+# install http://HOST:PORT/nginx_status endpoint
+nginx_status:  false     
 
 ```
 
