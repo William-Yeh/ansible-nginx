@@ -9,43 +9,41 @@
 #
 
 - name: install add-apt-repository binary for Ansible to work
-  sudo: True
   apt: name=python-software-properties state=present update_cache=yes
 
 
 
 - name: add Nginx stable repository (deb)
-  sudo: True
   apt_repository: repo='deb http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx' state=present
 
 - name: add Nginx stable repository (deb-src)
-  sudo: True
   apt_repository: repo='deb-src http://nginx.org/packages/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} nginx' state=present
 
 - name: add Nginx.org key
-  sudo: True
   apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
 
 
 
 - name: run the equivalent of "apt-get update" as a separate step
-  sudo: True
   apt: update_cache=yes
 
 
 
-- name: install Nginx
-  sudo: True
+- name: install Nginx with specific version
   apt: name={{ item }}  update_cache=yes  state=present force=yes
   with_items: [ "nginx={{ nginx_version }}*" ]
-  #when: ansible_distribution == "Debian"
+  when: nginx_version is defined
+
+- name: install Nginx with default version
+  apt: name={{ item }}  update_cache=yes  state=present force=yes
+  with_items: [ "nginx" ]
+  when: nginx_version is not defined
+
 
 
 - name: set INIT status (SysV style)
-  sudo: True
   shell: update-rc.d nginx defaults
 
 
 - name: start Nginx
-  sudo: True
   service: name=nginx state=started enabled=yes

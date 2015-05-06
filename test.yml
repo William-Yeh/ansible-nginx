@@ -1,4 +1,5 @@
 - hosts: all
+  sudo: True
   tasks:
     - include: 'tasks/main.yml'
   handlers:
@@ -7,4 +8,4 @@
     - 'defaults/main.yml'
 
   vars:
-    nginx_version: 1.8.0
+    #nginx_version: 1.8.0

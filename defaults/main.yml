@@ -19,7 +19,5 @@ nginx_worker_connections: 1024      # worker_connections in nginx.conf
 
 
 #---- the following vars are handled in tasks/set-role-variables.yml ------
-#nginx_user:              www-data  # debian series
-#nginx_user:              nginx     # redhat series
 
 #nginx_use_service:       True      # use service to start/restart

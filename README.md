@@ -22,17 +22,8 @@ This Ansible role has the following features for Nginx:
 
 ### Mandatory variables
 
-Variables needed to be defined in user's playbook:
+None.
 
-```yaml
-nginx_version
-```
-
-For example:
-
-```yaml
-nginx_version: 1.8.0
-```
 
 
 
@@ -59,10 +50,17 @@ nginx_conf_others
 
 User-configurable defaults:
 
+
 ```yaml
+# Nginx version; e.g., "1.8.0"
+# Will install the default (usually the latest stable) version, if not specified.
+nginx_version
+
+
 # uid of worker process;
-# default: "www-data" in Debian series; "nginx" in RedHat series.
+# default: "nginx".
 nginx_user
+
 
 # for worker_rlimit_nofile in nginx.conf
 nginx_ulimit:  51200
@@ -70,10 +68,11 @@ nginx_ulimit:  51200
 # for worker_connections in nginx.conf
 nginx_worker_connections:  1024
 
-# install http://HOST:PORT/nginx_status endpoint
+
+# install health-check endpoint "http://HOST:PORT/nginx_status"?
 nginx_status:  False
 
-# use service to start/restart nginx daemon
+# use `service` command to start/restart nginx daemon?
 nginx_use_service:  True
 ```
 

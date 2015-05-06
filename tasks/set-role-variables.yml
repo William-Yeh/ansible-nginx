@@ -3,17 +3,6 @@
 # set necessary role variables.
 #
 
-- name: set nginx_user for Debian/Ubuntu system
-  set_fact:
-    nginx_user: "www-data"
-  when: nginx_user is not defined  and  ansible_pkg_mgr == "apt"
-
-- name: set nginx_user for RHEL/CentOS system
-  set_fact:
-    nginx_user: "nginx"
-  when: nginx_user is not defined  and  ansible_pkg_mgr == "yum"
-
-
 - name: set nginx_use_service = True, if not defined
   set_fact:
     nginx_use_service: True
