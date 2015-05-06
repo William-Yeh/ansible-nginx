@@ -4,7 +4,6 @@
 # variables needed to be defined in user's playbook
 #
 
-#nginx_version:           1.8.0
 
 
 #
@@ -12,7 +11,11 @@
 #
 
 
-nginx_status:             False     # install http://HOST:PORT/nginx_status endpoint
+#nginx_version:           1.8.0     # will install the default (usually the latest stable) version, if not specified.
+
+nginx_user:               nginx     # uid of worker process
+
+nginx_status:             False     # install health-checking endpoint "http://HOST:PORT/nginx_status"?
 
 nginx_ulimit:             51200     # worker_rlimit_nofile in nginx.conf
 nginx_worker_connections: 1024      # worker_connections in nginx.conf
@@ -20,4 +23,4 @@ nginx_worker_connections: 1024      # worker_connections in nginx.conf
 
 #---- the following vars are handled in tasks/set-role-variables.yml ------
 
-#nginx_use_service:       True      # use service to start/restart
+#nginx_use_service:       True      # use "service" command to start/restart nginx?
