@@ -38,8 +38,8 @@
 # @see http://stackoverflow.com/questions/23948527/13-permission-denied-while-connecting-to-upstreamnginx
 - name: set (httpd_can_network_connect) flag on and keep it persistent across reboots
   seboolean: name=httpd_can_network_connect state=yes persistent=yes
+  when: ansible_selinux
   #when: ansible_selinux.status == "enabled"
-
 
 
 - name: set INIT status and start
