@@ -1,13 +1,16 @@
 ---
 # file: tasks/use-yum.yml
 #
-# Configure nginx from YUM repository.  
+# Configure nginx from YUM repository.
 #
 # @see http://wiki.nginx.org/Install
 #
 
 - name: install libselinux-python binary for Ansible to work
-  yum: name=libselinux-python state=present
+  yum: name={{ item }} state=present
+  with_items:
+    - libselinux-python
+    - libsemanage-python
 
 
 
@@ -32,10 +35,16 @@
   when: nginx_version is not defined
 
 
+# @see http://stackoverflow.com/questions/23948527/13-permission-denied-while-connecting-to-upstreamnginx
+- name: set (httpd_can_network_connect) flag on and keep it persistent across reboots
+  seboolean: name=httpd_can_network_connect state=yes persistent=yes
+  #when: ansible_selinux.status == "enabled"
 
-- name: set INIT status (SysV style)
-  command: /sbin/chkconfig nginx on
 
 
-#- name: start Nginx
-#  service: name=nginx state=started enabled=yes
+- name: set INIT status and start
+  service: name=nginx state=started enabled=yes
+
+#- name: set INIT status (SysV style)
+#  command: /sbin/chkconfig nginx on
+

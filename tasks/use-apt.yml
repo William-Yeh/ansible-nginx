@@ -1,7 +1,7 @@
 ---
 # file: tasks/use-apt.yml
 #
-# Configure nginx from APT repository.  
+# Configure nginx from APT repository.
 #
 # @see http://wiki.nginx.org/Install
 # @see http://nginx.org/packages/ubuntu/dists/
@@ -44,6 +44,6 @@
 - name: set INIT status (SysV style)
   shell: update-rc.d nginx defaults
 
-
-- name: start Nginx
+- name: set INIT status and start
   service: name=nginx state=started enabled=yes
+
