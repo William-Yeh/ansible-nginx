@@ -44,7 +44,8 @@
 
 - name: set INIT status and start
   service: name=nginx state=started enabled=yes
+  when: nginx_use_service|bool
 
-#- name: set INIT status (SysV style)
-#  command: /sbin/chkconfig nginx on
-
+- name: set INIT status (SysV style)
+  command: /sbin/chkconfig nginx on
+  when: not nginx_use_service|bool
