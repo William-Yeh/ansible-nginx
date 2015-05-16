@@ -24,3 +24,5 @@ nginx_worker_connections: 1024      # worker_connections in nginx.conf
 #---- the following vars are handled in tasks/set-role-variables.yml ------
 
 #nginx_use_service:       True      # use "service" command to start/restart nginx?
+
+#nginx_in_selinux:        False

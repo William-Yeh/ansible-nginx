@@ -7,3 +7,20 @@
   set_fact:
     nginx_use_service: True
   when: nginx_use_service is not defined
+
+
+
+- name: set nginx_in_selinux = True for CentOS 6
+  set_fact:
+    nginx_in_selinux: True
+  when: nginx_in_selinux is not defined and ansible_distribution|lower == "centos" and ansible_distribution_major_version == "6"
+
+- name: set nginx_in_selinux = True for RHEL 6
+  set_fact:
+    nginx_in_selinux: True
+  when: nginx_in_selinux is not defined and ansible_distribution == "Red Hat Enterprise Linux" and ansible_distribution_major_version == "6"
+
+- name: set nginx_in_selinux = True, judging from the context
+  set_fact:
+    nginx_in_selinux: True
+  when: nginx_in_selinux is not defined and ansible_selinux == true or (ansible_selinux.status is defined and ansible_selinux.status == "enabled")

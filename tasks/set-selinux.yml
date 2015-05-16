@@ -1,0 +1,31 @@
+---
+# file: tasks/set-selinux.yml
+#
+# Configure nginx for SELINUX mechanism.
+#
+# @see http://www.infoq.com/fr/presentations/managing-deploying-custom-selinux-policies-ansible-puppet
+# @see http://axilleas.me/en/blog/2013/selinux-policy-for-nginx-and-gitlab-unix-socket-in-fedora-19/
+# @see http://stackoverflow.com/questions/23948527/13-permission-denied-while-connecting-to-upstreamnginx
+#
+
+
+- name: install selinux-related python binaries for Ansible to work
+  yum: name={{ item }} state=present
+  with_items:
+    - libselinux-python
+    - libsemanage-python
+  when: ansible_pkg_mgr == "yum"
+
+
+- name: set "httpd_can_network_connect" flag on
+  seboolean: name={{ item }} state=yes persistent=yes
+  with_items:
+    - httpd_can_network_connect
+
+- name: copy custom policy module
+  copy: src=../files/nginx.pp dest=/tmp/nginx.pp
+  register: nginx_custom_policy_output
+
+- name: install custom policy module
+  shell: /usr/sbin/semodule -i /tmp/nginx.pp
+  when: nginx_custom_policy_output.changed

@@ -9,6 +9,16 @@
   include: set-role-variables.yml
 
 
+- name: install libselinux-python binary for Ansible to work
+  yum: name=libselinux-python state=present
+  when: ansible_pkg_mgr == "yum"
+
+- name: delegate to SELINUX handling subtask, if necessary
+  include: set-selinux.yml
+  when: nginx_in_selinux is defined and nginx_in_selinux == true
+
+
+
 - name: delegate to APT system for installation
   include: use-apt.yml
   when: ansible_pkg_mgr == "apt"

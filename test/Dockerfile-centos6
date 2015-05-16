@@ -19,7 +19,7 @@ MAINTAINER William Yeh <william.pjyeh@gmail.com>
 #
 
 ENV PLAYBOOK test.yml
-RUN ansible-playbook-wrapper
+RUN ansible-playbook-wrapper -vvv --extra-vars "nginx_in_selinux=False"
 
 EXPOSE 80
 
