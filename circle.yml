@@ -27,29 +27,29 @@ dependencies:
 
 test:
   override:
-    - docker run -d -p 80:80 --name c1 nginx_trusty
-    - curl -v -o result-ubuntu14.04  http://localhost:80/nginx_status
-    - docker kill c1 ; sleep 10
+    - docker run -d --name c1 nginx_trusty
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c1)
+    - curl -v -o result-ubuntu14.04  http://$IP:80/nginx_status
 
-    - docker run -d -p 80:80 --name c2 nginx_precise
-    - curl -v -o result-ubuntu12.04  http://localhost:80/nginx_status
-    - docker kill c2 ; sleep 10
+    - docker run -d --name c2 nginx_precise
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c2)
+    - curl -v -o result-ubuntu12.04  http://$IP:80/nginx_status
 
-    - docker run -d -p 80:80 --name c3 nginx_jessie
-    - curl -v -o result-debian8      http://localhost:80/nginx_status
-    - docker kill c3 ; sleep 10
+    - docker run -d --name c3 nginx_jessie
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c3)
+    - curl -v -o result-debian8      http://$IP:80/nginx_status
 
-    - docker run -d -p 80:80 --name c4 nginx_wheezy
-    - curl -v -o result-debian7      http://localhost:80/nginx_status
-    - docker kill c4 ; sleep 10
+    - docker run -d --name c4 nginx_wheezy
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c4)
+    - curl -v -o result-debian7      http://$IP:80/nginx_status
 
-    - docker run -d -p 80:80 --name c5 nginx_centos7
-    - curl -v -o result-centos7      http://localhost:80/nginx_status
-    - docker kill c5 ; sleep 10
+    - docker run -d --name c5 nginx_centos7
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c5)
+    - curl -v -o result-centos7      http://$IP:80/nginx_status
 
-    - docker run -d -p 80:80 --name c6 nginx_centos6
-    - curl -v -o result-centos6      http://localhost:80/nginx_status
-    - docker kill c6 ; sleep 10
+    - docker run -d --name c6 nginx_centos6
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c6)
+    - curl -v -o result-centos6      http://$IP:80/nginx_status
 
     - echo "==> Validating the test results..."
     - grep '^Active connections' result-ubuntu14.04
