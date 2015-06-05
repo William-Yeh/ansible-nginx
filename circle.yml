@@ -1,0 +1,60 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker version
+
+    - cp test/Dockerfile-ubuntu14.04 Dockerfile
+    - docker build  -t nginx_trusty   .
+
+    - cp test/Dockerfile-ubuntu12.04 Dockerfile
+    - docker build  -t nginx_precise  .
+
+    - cp test/Dockerfile-debian8 Dockerfile
+    - docker build  -t nginx_jessie   .
+
+    - cp test/Dockerfile-debian7 Dockerfile
+    - docker build  -t nginx_wheezy   .
+
+    - cp test/Dockerfile-centos7 Dockerfile
+    - docker build  -t nginx_centos7  .
+
+    - cp test/Dockerfile-centos6 Dockerfile
+    - docker build  -t nginx_centos6  .
+
+test:
+  override:
+    - docker run -d -p 80:80 --name c1 nginx_trusty
+    - curl -v -o result-ubuntu14.04  http://localhost:80/nginx_status
+    - docker kill c1 ; sleep 10
+
+    - docker run -d -p 80:80 --name c2 nginx_precise
+    - curl -v -o result-ubuntu12.04  http://localhost:80/nginx_status
+    - docker kill c2 ; sleep 10
+
+    - docker run -d -p 80:80 --name c3 nginx_jessie
+    - curl -v -o result-debian8      http://localhost:80/nginx_status
+    - docker kill c3 ; sleep 10
+
+    - docker run -d -p 80:80 --name c4 nginx_wheezy
+    - curl -v -o result-debian7      http://localhost:80/nginx_status
+    - docker kill c4 ; sleep 10
+
+    - docker run -d -p 80:80 --name c5 nginx_centos7
+    - curl -v -o result-centos7      http://localhost:80/nginx_status
+    - docker kill c5 ; sleep 10
+
+    - docker run -d -p 80:80 --name c6 nginx_centos6
+    - curl -v -o result-centos6      http://localhost:80/nginx_status
+    - docker kill c6 ; sleep 10
+
+    - echo "==> Validating the test results..."
+    - grep '^Active connections' result-ubuntu14.04
+    - grep '^Active connections' result-ubuntu12.04
+    - grep '^Active connections' result-debian8
+    - grep '^Active connections' result-debian7
+    - grep '^Active connections' result-centos7
+    - grep '^Active connections' result-centos6
