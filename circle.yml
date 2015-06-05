@@ -28,28 +28,28 @@ dependencies:
 test:
   override:
     - docker run -d --name c1 nginx_trusty
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c1)
-    - curl -v -o result-ubuntu14.04  http://$IP:80/nginx_status
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c1)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -n 1 curl -v -o result-ubuntu14.04
 
     - docker run -d --name c2 nginx_precise
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c2)
-    - curl -v -o result-ubuntu12.04  http://$IP:80/nginx_status
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c2)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -n 1 curl -v -o result-ubuntu12.04
 
     - docker run -d --name c3 nginx_jessie
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c3)
-    - curl -v -o result-debian8      http://$IP:80/nginx_status
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c3)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -n 1 curl -v -o result-debian8
 
     - docker run -d --name c4 nginx_wheezy
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c4)
-    - curl -v -o result-debian7      http://$IP:80/nginx_status
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c4)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -n 1 curl -v -o result-debian7
 
     - docker run -d --name c5 nginx_centos7
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c5)
-    - curl -v -o result-centos7      http://$IP:80/nginx_status
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c5)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -n 1 curl -v -o result-centos7
 
     - docker run -d --name c6 nginx_centos6
-    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c6)
-    - curl -v -o result-centos6      http://$IP:80/nginx_status
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c6)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -n 1 curl -v -o result-centos6
 
     - echo "==> Validating the test results..."
     - grep '^Active connections' result-ubuntu14.04
