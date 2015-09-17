@@ -1,21 +1,47 @@
 sudo: true
+services:
+    - docker
 
-install:
-  - curl -sLo - https://github.com/moul/travis-docker/raw/master/install.sh | sh -xe
+before_install:
+    - docker info
+    - docker version
+
+    - docker build  -f test/Dockerfile-ubuntu14.04  -t nginx_trusty   .
+    - docker build  -f test/Dockerfile-ubuntu12.04  -t nginx_precise  .
+    - docker build  -f test/Dockerfile-debian8      -t nginx_jessie   .
+    - docker build  -f test/Dockerfile-debian7      -t nginx_wheezy   .
+    - docker build  -f test/Dockerfile-centos7      -t nginx_centos7  .
+    - docker build  -f test/Dockerfile-centos6      -t nginx_centos6  .
 
 script:
-  - echo "==> Building the main Docker image..."
-  - ./run 'docker build -f test/Dockerfile-ubuntu14.04 -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-ubuntu14.04  http://nginx:80/nginx_status'
-  - ./run 'docker build -f test/Dockerfile-ubuntu12.04 -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-ubuntu12.04  http://nginx:80/nginx_status'
-  - ./run 'docker build -f test/Dockerfile-debian8     -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-debian8      http://nginx:80/nginx_status'
-  - ./run 'docker build -f test/Dockerfile-debian7     -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-debian7      http://nginx:80/nginx_status'
-  - ./run 'docker build -f test/Dockerfile-centos7     -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-centos7      http://nginx:80/nginx_status'
-  - ./run 'docker build -f test/Dockerfile-centos6     -t nginx_img .  &&  docker run -d --name nginx nginx_img  &&  docker run --link nginx:nginx -v $(pwd):/data nginx_img curl -v -o /data/result-centos6      http://nginx:80/nginx_status'
+    - docker run -d --name c1 nginx_trusty
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c1)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -t -n 1 curl -v -o result-ubuntu14.04
 
-  - echo "==> Validating the test results..."
-  - grep '^Active connections' result-ubuntu14.04  ||  exit 1
-  - grep '^Active connections' result-ubuntu12.04  ||  exit 1
-  - grep '^Active connections' result-debian8      ||  exit 1
-  - grep '^Active connections' result-debian7      ||  exit 1
-  - grep '^Active connections' result-centos7      ||  exit 1
-  - grep '^Active connections' result-centos6      ||  exit 1
+    - docker run -d --name c2 nginx_precise
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c2)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -t -n 1 curl -v -o result-ubuntu12.04
+
+    - docker run -d --name c3 nginx_jessie
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c3)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -t -n 1 curl -v -o result-debian8
+
+    - docker run -d --name c4 nginx_wheezy
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c4)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -t -n 1 curl -v -o result-debian7
+
+    - docker run -d --name c5 nginx_centos7
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c5)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -t -n 1 curl -v -o result-centos7
+
+    - docker run -d --name c6 nginx_centos6
+    - IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' c6)  ;  echo http://$IP:80/nginx_status > url
+    - cat url  |  xargs -t -n 1 curl -v -o result-centos6
+
+    - echo "==> Validating the test results..."
+    - grep '^Active connections' result-ubuntu14.04
+    - grep '^Active connections' result-ubuntu12.04
+    - grep '^Active connections' result-debian8
+    - grep '^Active connections' result-debian7
+    - grep '^Active connections' result-centos7
+    - grep '^Active connections' result-centos6
