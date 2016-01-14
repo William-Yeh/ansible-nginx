@@ -22,13 +22,11 @@
 
 
 - name: install Nginx with specific version
-  yum: name={{ item }}  update_cache=yes  state=present
-  with_items: [ "nginx-{{ nginx_version }}*" ]
+  yum: name="nginx-{{ nginx_version }}*"  update_cache=yes  state=present
   when: nginx_version is defined
 
 - name: install Nginx with default version
-  yum: name={{ item }}  update_cache=yes  state=present
-  with_items: [ "nginx" ]
+  yum: name="nginx"  update_cache=yes  state=present
   when: nginx_version is not defined
 
 
