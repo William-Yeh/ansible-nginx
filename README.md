@@ -7,7 +7,7 @@ williamyeh.nginx for Ansible Galaxy
 
 ## Summary
 
-Role name in Ansible Galaxy: **[williamyeh.nginx](https://galaxy.ansible.com/list#/roles/2245)**
+Role name in Ansible Galaxy: **[williamyeh.nginx](https://galaxy.ansible.com/williamyeh/nginx/)**
 
 This Ansible role has the following features for Nginx:
 
