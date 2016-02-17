@@ -19,7 +19,7 @@ MAINTAINER William Yeh <william.pjyeh@gmail.com>
 #
 
 ENV PLAYBOOK test.yml
-RUN ansible-playbook-wrapper -vvv --extra-vars "nginx_use_service=False"
+RUN ansible-playbook-wrapper
 
 EXPOSE 80
 
@@ -36,4 +36,9 @@ RUN echo "===> Deploying nginx_status.conf to server for testing..."   && \
     > /etc/nginx/conf.d/nginx_status.conf
 
 
-CMD ["nginx", "-g", "daemon off;"]
+VOLUME ["/data"]
+ENV    RESULT     /data/result-debian8
+
+CMD  \
+     service nginx start   &&  sleep 10  &&  \
+     curl --retry 5 --retry-max-time 120 -v  http://localhost:80/nginx_status  > $RESULT

@@ -39,25 +39,37 @@
 
 
 - name: copy Nginx main config file from role's default, if necessary
-  template: src=../templates/nginx.conf.j2  dest=/etc/nginx/nginx.conf
+  template:
+    src:  ../templates/nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    validate: "nginx -t -c %s"
   when: nginx_conf_main is not defined
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: copy Nginx main config file from playbook's, if any
-  template: src={{ playbook_dir }}/{{ nginx_conf_main }}  dest=/etc/nginx/nginx.conf
+  template:
+    src:  "{{ playbook_dir }}/{{ nginx_conf_main }}"
+    dest: /etc/nginx/nginx.conf
+    validate: "nginx -t -c %s"
   when: nginx_conf_main is defined
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: copy other Nginx config files from playbook's, if any
-  template: src={{ playbook_dir }}/{{ item.value.src }}  dest=/etc/nginx/conf.d/{{ item.value.dest }}
+  template:
+    src:  "{{ playbook_dir }}/{{ item.value.src }}"
+    dest: "/etc/nginx/conf.d/{{ item.value.dest }}"
+    validate: "nginx -t -c %s"
   with_dict: nginx_conf_others | default({})
   notify:
-    - restart nginx
+    - reload nginx
 
 - name: install http://HOST:PORT/nginx_status endpoint, if requested
-  copy: src=../files/nginx_status.conf  dest=/etc/nginx/conf.d/nginx_status.conf
+  copy:
+    src:  ../files/nginx_status.conf
+    dest: /etc/nginx/conf.d/nginx_status.conf
+    validate: "nginx -t -c %s"
   when: nginx_status|bool
   notify:
-    - restart nginx
+    - reload nginx

@@ -11,7 +11,7 @@
 #
 
 
-#nginx_version:           1.8.0     # will install the default (usually the latest stable) version, if not specified.
+#nginx_version:           1.8.1     # will install the default (usually the latest stable) version, if not specified.
 
 nginx_user:               nginx     # uid of worker process
 
@@ -20,6 +20,7 @@ nginx_status:             False     # install health-checking endpoint "http://H
 nginx_ulimit:             51200     # worker_rlimit_nofile in nginx.conf
 nginx_worker_connections: 1024      # worker_connections in nginx.conf
 
+nginx_start:              True      # start the service at the end of the role?
 
 #---- the following vars are handled in tasks/set-role-variables.yml ------
 

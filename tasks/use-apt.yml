@@ -39,9 +39,12 @@
 
 
 
-- name: set INIT status (SysV style)
-  shell: update-rc.d nginx defaults
+#- name: set INIT status (SysV style)
+#  shell: update-rc.d nginx defaults
 
-- name: set INIT status and start
-  service: name=nginx state=started enabled=yes
+- name: set INIT status
+  service: name=nginx enabled=yes
 
+- name: start the Nginx service, if necessary
+  service: name=nginx state=started
+  when: nginx_start

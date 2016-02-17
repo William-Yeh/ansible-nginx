@@ -52,9 +52,14 @@ User-configurable defaults:
 
 
 ```yaml
-# Nginx version; e.g., "1.8.0"
+# Nginx version; e.g., "1.8.1"
 # Will install the default (usually the latest stable) version, if not specified.
 nginx_version
+
+
+# start the service at the end of the role?
+# default: True
+nginx_start      
 
 
 # uid of worker process;
@@ -111,7 +116,7 @@ Simple example:
     - williamyeh.nginx
 
   vars:
-    nginx_version: 1.8.0
+    nginx_version: 1.8.1
 ```
 
 
@@ -130,7 +135,7 @@ More practical example:
     - williamyeh.nginx
 
   vars:
-    nginx_version: 1.8.0
+    nginx_version: 1.8.1
 
     nginx_conf_main: "templates/nginx.conf.j2"
 

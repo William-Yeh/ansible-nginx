@@ -1,11 +1,21 @@
 - hosts: all
   become: True
-  tasks:
-    - include: 'tasks/main.yml'
   handlers:
+    #- name: restart nginx
+    #  service: name=nginx state=restarted
+    #- name: reload nginx
+    #  service: name=nginx state=reloaded
+    #- name: stop nginx
+    #  service: name=nginx state=stopped
     - include: 'handlers/main.yml'
+
   vars_files:
     - 'defaults/main.yml'
 
   vars:
-    #nginx_version: 1.8.0
+    #nginx_version: 1.8.1
+
+  tasks:
+    - include: 'tasks/main.yml'
+
+
