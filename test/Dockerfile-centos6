@@ -36,4 +36,9 @@ RUN echo "===> Deploying nginx_status.conf to server for testing..."   && \
     > /etc/nginx/conf.d/nginx_status.conf
 
 
-CMD ["nginx", "-g", "daemon off;"]
+VOLUME ["/data"]
+ENV    RESULT     /data/result-centos6
+COPY   test/run-test.sh /usr/local/bin/
+
+
+CMD [ "run-test.sh" ]
