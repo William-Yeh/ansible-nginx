@@ -60,7 +60,7 @@
   template:
     src:  "{{ playbook_dir }}/{{ item.value.src }}"
     dest: "/etc/nginx/conf.d/{{ item.value.dest }}"
-    validate: "nginx -t -c %s"
+    #validate: "nginx -t -c %s"
   with_dict: '{{ nginx_conf_others | default({}) }}'
   notify:
     - reload nginx
