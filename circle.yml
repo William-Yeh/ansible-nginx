@@ -13,6 +13,7 @@ dependencies:
     - docker build  -f test/Dockerfile-debian7      -t nginx_wheezy   .
     - docker build  -f test/Dockerfile-centos7      -t nginx_centos7  .
     - docker build  -f test/Dockerfile-centos6      -t nginx_centos6  .
+    - docker build  -f test/Dockerfile-alpine3      -t nginx_alpine3  .
 
 test:
   override:
@@ -26,6 +27,7 @@ test:
     #- sudo lxc-attach -n "$(docker inspect --format '{{.Id}}' c5)" -- bash -c run-test.sh
 
     - docker run  -v $(pwd):/data  nginx_centos6
+    - docker run  -v $(pwd):/data  nginx_alpine3
 
 
     - echo "==> Validating the test results..."
@@ -35,3 +37,4 @@ test:
     - grep '^Active connections' result-debian7
     #- grep '^Active connections' result-centos7
     - grep '^Active connections' result-centos6
+    - grep '^Active connections' result-alpine3

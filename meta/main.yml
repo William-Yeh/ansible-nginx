@@ -23,10 +23,14 @@ galaxy_info:
           versions:
               - 6
               - 7
+        - name: Alpine
+          versions:
+              - all
     galaxy_tags:
         - cloud
         - system
         - web
         - nginx
+        - alpine
 
 dependencies: []

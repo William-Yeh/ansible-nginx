@@ -16,6 +16,21 @@ Vagrant.configure("2") do |config|
     end
 
 
+    # alpine: special case...
+    config.vm.define "alpine" do |node|
+        node.vm.box = "maier/alpine-3.3.1-x86_64"
+
+        # for Alpine Linux...
+        node.vm.synced_folder '.', '/vagrant', disabled: true
+
+        node.vm.provision "ansible" do |ansible|
+            ansible.playbook = "test-alpine.yml"
+            ansible.sudo = true
+            ansible.extra_vars = { alpine_python_fix_repo: true }
+        end
+    end
+
+
     # docker: for auto build & testing (e.g., Travis CI)
     config.vm.define "docker" do |node|
         node.vm.box = "williamyeh/ubuntu-trusty64-docker"
@@ -28,6 +43,7 @@ Vagrant.configure("2") do |config|
             docker build  -f test/Dockerfile-debian7      -t nginx_wheezy   .
             docker build  -f test/Dockerfile-centos7      -t nginx_centos7  .
             docker build  -f test/Dockerfile-centos6      -t nginx_centos6  .
+            docker build  -f test/Dockerfile-alpine3      -t nginx_alpine3  .
         SHELL
     end
 

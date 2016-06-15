@@ -1,0 +1,25 @@
+---
+# file: tasks/use-apk.yml
+#
+# Configure nginx from APK repository.
+#
+# @see https://pkgs.alpinelinux.org/packages?name=nginx
+#
+
+#- name: install add-apt-repository binary for Ansible to work
+#  apt: name=python-software-properties state=present update_cache=yes
+
+
+
+- name: install Nginx with default version
+  apk: name=nginx  state=present
+
+
+
+- name: set INIT status
+  service: name=nginx enabled=yes
+  when: nginx_use_service
+
+- name: start the Nginx service, if necessary
+  service: name=nginx state=started
+  when: nginx_use_service|bool and nginx_start

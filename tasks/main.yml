@@ -27,6 +27,9 @@
   include: use-yum.yml
   when: ansible_pkg_mgr == "yum"
 
+- name: delegate to APK system for installation
+  include: use-apk.yml
+  when: ansible_pkg_mgr == "apk"
 
 
 
@@ -69,7 +72,7 @@
   copy:
     src:  ../files/nginx_status.conf
     dest: /etc/nginx/conf.d/nginx_status.conf
-    validate: "nginx -t -c %s"
+    #validate: "nginx -t -c %s"
   when: nginx_status|bool
   notify:
     - reload nginx
